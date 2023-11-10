@@ -3,7 +3,7 @@ pragma solidity ^0.8.20;
 
 import {stdStorage, Test, StdStorage} from "forge-std/Test.sol";
 import {MyToken} from "src/lab1/MyToken.sol";
-import {Utils} from "./Utils.sol";
+import {Utils} from "../Utils.sol";
 
 contract MyTokenTest is Test {
     using stdStorage for StdStorage;

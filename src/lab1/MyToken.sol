@@ -31,6 +31,7 @@ contract MyToken is ERC721, ERC721Pausable, Ownable, ERC721Burnable {
         totalSupply = initialTotalSupply;
         mintLimit = initialMintLimit;
         mintPrice = initialMintPrice;
+        _nextTokenId = 1;
     }
 
     function tokenURI(
@@ -54,7 +55,7 @@ contract MyToken is ERC721, ERC721Pausable, Ownable, ERC721Burnable {
     }
 
     function safeMint(address to) public payable whenNotPaused {
-        if (_nextTokenId > totalSupply - 1) {
+        if (_nextTokenId > totalSupply) {
             revert OutOfStock();
         }
         if (mintLog[to] >= mintLimit) {

@@ -13,7 +13,7 @@ import "./IMarketplace.sol";
 contract MarketplaceSample is ERC721Holder, Context, IMarketplace {
     using EnumerableSet for EnumerableSet.UintSet;
 
-    error NotImplementedError();
+    error NotSellerError();
     error InvalidParamError();
 
     IERC721 public ntfContract;
@@ -84,7 +84,7 @@ contract MarketplaceSample is ERC721Holder, Context, IMarketplace {
         }
         // 2. Check if the caller is the seller
         if (saleItems[tokenId].seller != _msgSender()) {
-            revert InvalidParamError();
+            revert NotSellerError();
         }
 
         // 3. Remove the NFT from the list
