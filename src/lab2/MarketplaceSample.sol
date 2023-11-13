@@ -14,6 +14,8 @@ contract MarketplaceSample is ERC721Holder, Context, IMarketplace {
     using EnumerableSet for EnumerableSet.UintSet;
 
     error NotSellerError();
+    error NotOwnerError();
+    error NotApprovedError();
     error InvalidParamError();
 
     IERC721 public ntfContract;
@@ -56,12 +58,14 @@ contract MarketplaceSample is ERC721Holder, Context, IMarketplace {
         address owner = ntfContract.ownerOf(tokenId);
         address ourAddress = address(this);
         // 1. Check Ownership and if we can transfer the NFT to us
+        if (owner != _msgSender()) {
+            revert NotOwnerError();
+        }
         if (
-            owner != _msgSender() &&
             !ntfContract.isApprovedForAll(owner, ourAddress) &&
             ntfContract.getApproved(tokenId) != ourAddress
         ) {
-            revert InvalidParamError();
+            revert NotApprovedError();
         }
         // 2. Check if the NFT is already listed
         if (tokenIdSet.contains(tokenId)) {

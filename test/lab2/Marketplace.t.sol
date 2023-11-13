@@ -30,11 +30,14 @@ contract MarketplaceTest is Test {
         marketplace = new MarketplaceSample(address(nft));
 
         nft.safeMint{value: 0.1 ether}(alice);
+        nft.safeMint{value: 0.1 ether}(bob);
+        nft.safeMint{value: 0.1 ether}(carol);
     }
 
     function test_list() external {
         vm.prank(alice);
         nft.approve(address(marketplace), 1);
+        vm.prank(alice);
         marketplace.list(1, 1 ether);
         assertEq(nft.ownerOf(1), address(marketplace));
         assertEq(marketplace.numberOfItems(), 1);
@@ -44,8 +47,27 @@ contract MarketplaceTest is Test {
     function test_list_noPrice() external {
         vm.prank(alice);
         nft.approve(address(marketplace), 1);
+        vm.prank(alice);
         vm.expectRevert(MarketplaceSample.InvalidParamError.selector);
         marketplace.list(1, 0 ether);
+        assertEq(nft.ownerOf(1), alice);
+        assertEq(marketplace.numberOfItems(), 0);
+    }
+
+    function test_list_notOwner() external {
+        vm.prank(alice);
+        nft.approve(address(marketplace), 1);
+        vm.prank(bob);
+        vm.expectRevert(MarketplaceSample.NotOwnerError.selector);
+        marketplace.list(1, 1 ether);
+        assertEq(nft.ownerOf(1), alice);
+        assertEq(marketplace.numberOfItems(), 0);
+    }
+
+    function test_list_notApproved() external {
+        vm.prank(alice);
+        vm.expectRevert(MarketplaceSample.NotApprovedError.selector);
+        marketplace.list(1, 1 ether);
         assertEq(nft.ownerOf(1), alice);
         assertEq(marketplace.numberOfItems(), 0);
     }
@@ -53,6 +75,7 @@ contract MarketplaceTest is Test {
     function test_delist() external {
         vm.prank(alice);
         nft.approve(address(marketplace), 1);
+        vm.prank(alice);
         marketplace.list(1, 1 ether);
         assertEq(nft.ownerOf(1), address(marketplace));
         assertEq(marketplace.numberOfItems(), 1);
@@ -63,9 +86,39 @@ contract MarketplaceTest is Test {
         assertEq(marketplace.numberOfItems(), 0);
     }
 
+    function test_delist_notListed() external {
+        vm.prank(alice);
+        vm.expectRevert(MarketplaceSample.InvalidParamError.selector);
+        marketplace.delist(1);
+    }
+
+    function test_delist_notSeller() external {
+        vm.prank(alice);
+        nft.approve(address(marketplace), 1);
+        vm.prank(alice);
+        marketplace.list(1, 1 ether);
+        assertEq(nft.ownerOf(1), address(marketplace));
+        assertEq(marketplace.numberOfItems(), 1);
+
+        vm.prank(bob);
+        nft.approve(address(marketplace), 2);
+        vm.prank(bob);
+        marketplace.list(2, 1 ether);
+        assertEq(nft.ownerOf(2), address(marketplace));
+        assertEq(marketplace.numberOfItems(), 2);
+
+        vm.prank(alice);
+        vm.expectRevert(MarketplaceSample.NotSellerError.selector);
+        marketplace.delist(2);
+        assertEq(nft.ownerOf(2), address(marketplace));
+        assertEq(marketplace.numberOfItems(), 2);
+    }
+
     function test_buy() external {
         vm.prank(alice);
         nft.approve(address(marketplace), 1);
+
+        vm.prank(alice);
         marketplace.list(1, 1 ether);
         assertEq(nft.ownerOf(1), address(marketplace));
         assertEq(marketplace.numberOfItems(), 1);
