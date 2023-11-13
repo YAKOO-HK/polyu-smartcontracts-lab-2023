@@ -40,7 +40,7 @@ contract MyToken is ERC721, ERC721Pausable, Ownable, ERC721Burnable {
         _requireOwned(tokenId);
         return
             string.concat(
-                "https://app.moa.udlr.xyz/moa/token/",
+                "https://app.moa.udlr.xyz/api/moa/token/",
                 tokenId.toString(),
                 "/metadata.json"
             );
