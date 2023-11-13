@@ -41,6 +41,15 @@ contract MarketplaceTest is Test {
         assertEq(marketplace.itemAtIndex(0).tokenId, 1);
     }
 
+    function test_list_noPrice() external {
+        vm.prank(alice);
+        nft.approve(address(marketplace), 1);
+        vm.expectRevert(MarketplaceSample.InvalidParamError.selector);
+        marketplace.list(1, 0 ether);
+        assertEq(nft.ownerOf(1), alice);
+        assertEq(marketplace.numberOfItems(), 0);
+    }
+
     function test_delist() external {
         vm.prank(alice);
         nft.approve(address(marketplace), 1);

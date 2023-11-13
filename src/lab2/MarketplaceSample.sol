@@ -48,6 +48,11 @@ contract MarketplaceSample is ERC721Holder, Context, IMarketplace {
     }
 
     function list(uint256 tokenId, uint256 price) external {
+        // 0. Check if the price is valid
+        if (price == 0) {
+            revert InvalidParamError();
+        }
+
         address owner = ntfContract.ownerOf(tokenId);
         address ourAddress = address(this);
         // 1. Check Ownership and if we can transfer the NFT to us
