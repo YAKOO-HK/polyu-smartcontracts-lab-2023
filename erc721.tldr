@@ -66,9 +66,9 @@
     {
       "id": "pointer:pointer",
       "typeName": "pointer",
-      "x": 811,
-      "y": 463,
-      "lastActivityTimestamp": 1700202721467,
+      "x": 1253,
+      "y": 440,
+      "lastActivityTimestamp": 1700203228972,
       "meta": {}
     },
     {
@@ -105,7 +105,7 @@
       "stylesForNextShape": {
         "tldraw:geo": "rectangle",
         "tldraw:fill": "solid",
-        "tldraw:color": "violet",
+        "tldraw:color": "black",
         "tldraw:size": "l",
         "tldraw:dash": "solid",
         "tldraw:horizontalAlign": "middle",
@@ -422,6 +422,64 @@
       },
       "parentId": "page:page",
       "index": "aA",
+      "typeName": "shape"
+    },
+    {
+      "x": 785,
+      "y": 218,
+      "rotation": 0,
+      "isLocked": false,
+      "opacity": 1,
+      "meta": {},
+      "id": "shape:kGXE8x2E5dFI4k9OOvnzH",
+      "type": "geo",
+      "props": {
+        "w": 447,
+        "h": 102.1875,
+        "geo": "rectangle",
+        "color": "black",
+        "labelColor": "black",
+        "fill": "solid",
+        "dash": "solid",
+        "size": "l",
+        "font": "draw",
+        "text": "What is Minting and Burning?",
+        "align": "middle",
+        "verticalAlign": "middle",
+        "growY": 0,
+        "url": ""
+      },
+      "parentId": "page:page",
+      "index": "aB",
+      "typeName": "shape"
+    },
+    {
+      "x": 784,
+      "y": 334,
+      "rotation": 0,
+      "isLocked": false,
+      "opacity": 1,
+      "meta": {},
+      "id": "shape:e6A043N4Iskp1eKeE7Y-V",
+      "type": "geo",
+      "props": {
+        "w": 453,
+        "h": 91.375,
+        "geo": "rectangle",
+        "color": "violet",
+        "labelColor": "black",
+        "fill": "solid",
+        "dash": "draw",
+        "size": "m",
+        "font": "sans",
+        "text": "Minting: Transfer(0,address,tokenId)\nBuring: Transfer(address,0,tokenId)",
+        "align": "middle",
+        "verticalAlign": "middle",
+        "growY": 0,
+        "url": ""
+      },
+      "parentId": "page:page",
+      "index": "aC",
       "typeName": "shape"
     }
   ]
